@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏙️ San Diego City Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+
+        <div class="game-wrapper">
+            <canvas id="gameCanvas" width="800" height="600"></canvas>
+            <div class="game-ui">
+                <div class="player-info">
+                    <div class="stat">
+                        <span class="label">📍 Position:</span>
+                        <span id="position">X: 0, Y: 0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">⚡ Speed:</span>
+                        <span id="speed">Normal</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">🎮 Session:</span>
+                        <span id="sessionInfo">Loading...</span>
+                    </div>
+                </div>
+                <div class="debug-controls">
+                    <button id="resetSession" class="debug-btn">🔄 Reset Game</button>
+                    <button id="checkBackend" class="debug-btn">🏥 Check Backend</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interaction Prompt -->
+        <div id="interactionPrompt" class="interaction-prompt hidden">
+            <span>Press E to talk to <span id="npcPromptName">NPC</span></span>
+        </div>
+
+        <!-- Chat Modal -->
+        <div id="chatModal" class="chat-modal hidden">
+            <div class="chat-header">
+                <img id="npcAvatar" src="" alt="NPC Avatar" class="npc-avatar">
+                <div class="npc-info">
+                    <h3 id="npcName">NPC Name</h3>
+                    <p id="npcLocation">Location</p>
+                </div>
+                <button id="closeChat" class="close-btn">×</button>
+            </div>
+            <div id="messageHistory" class="message-history">
+                <div class="loading-message">
+                    <span>Loading conversation...</span>
+                </div>
+            </div>
+            <div id="responseOptions" class="response-options hidden"></div>
+            <div class="chat-input">
+                <input type="text" id="messageInput" placeholder="Type your message..." maxlength="500">
+                <button id="sendMessage" class="send-btn">Send</button>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay hidden">
+            <div class="loading-spinner">🎮</div>
+            <p>Connecting to San Diego...</p>
+        </div>
+
+    </div>
+
+    <script src="api.js"></script>
+    <script src="chat.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
