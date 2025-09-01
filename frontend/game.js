@@ -145,32 +145,17 @@ class Game {
     async setupNPCsFromBackend() {
         try {
             const npcData = await this.api.getNPCs();
+            console.log('🔍 Raw NPC data from backend:', npcData);
             
-            // Create mapping from image name to proper name
-            const imageToLocation = {
-                'la_jolla.png': { name: 'la_jolla', x: 0.15, y: 0.25 },
-                'pacific_beach.png': { name: 'pacific_beach', x: 0.16, y: 0.48 },
-                'ocean_beach.png': { name: 'ocean_beach', x: 0.14, y: 0.75 },
-                'university_city.png': { name: 'university_city', x: 0.32, y: 0.32 },
-                'clairemont.png': { name: 'clairemont', x: 0.28, y: 0.55 },
-                'mira_mesa.png': { name: 'mira_mesa', x: 0.55, y: 0.22 },
-                'black_montain.png': { name: 'black_montain', x: 0.78, y: 0.26 },
-                'miramar.png': { name: 'miramar', x: 0.52, y: 0.38 },
-                'serra_mesa.png': { name: 'serra_mesa', x: 0.40, y: 0.68 },
-                'scripps_ranch.png': { name: 'scripps_ranch', x: 0.78, y: 0.48 },
-                'el_cajon.png': { name: 'el_cajon', x: 0.58, y: 0.65 },
-                'east_san_diego.png': { name: 'east_san_diego', x: 0.80, y: 0.65 },
-                'chula_vista.png': { name: 'chula_vista', x: 0.55, y: 0.88 },
-                'coronado.png': { name: 'coronado', x: 0.28, y: 0.78 }
-            };
-            
-            // Load NPC images and create NPC objects
-            npcData.forEach(npc => {
-                const locationData = imageToLocation[npc.image];
-                if (locationData) {
+            // Load NPC images and create NPC objects using positions from JSON
+            npcData.forEach((npc, index) => {
+                console.log(`🔍 Processing NPC ${index}:`, npc);
+                
+                // Only use position data from JSON - no fallbacks
+                if (npc.position) {
                     const img = new Image();
                     img.onload = () => {
-                        console.log(`📍 NPC loaded: ${npc.name}`);
+                        console.log(`📍 NPC loaded: ${npc.name} at grid (${npc.position.x}, ${npc.position.y})`);
                     };
                     img.onerror = () => {
                         console.warn(`⚠️ Failed to load NPC image: ${npc.name}`);
@@ -178,12 +163,14 @@ class Game {
                     img.src = `images/${npc.image}`;
                     this.npcImages.set(npc.name, img);
                     
-                    // Create NPC object with backend data
+                    // Create NPC object with backend data - convert grid position to percentage
                     const newNPC = {
                         name: npc.name,
                         displayName: npc.name,
-                        x: locationData.x,
-                        y: locationData.y,
+                        x: npc.position.x / 100,  // Convert grid position to percentage (0-1)
+                        y: npc.position.y / 100,  // Convert grid position to percentage (0-1)
+                        gridX: npc.position.x,    // Store original grid position for debug
+                        gridY: npc.position.y,    // Store original grid position for debug
                         image: img,
                         width: this.player.width || 100,  // Use current character size or fallback
                         height: this.player.height || 100, // Use current character size or fallback
@@ -191,10 +178,13 @@ class Game {
                     };
                     
                     this.npcs.push(newNPC);
+                } else {
+                    console.warn(`⚠️ NPC ${npc.name} has no position data in JSON - SKIPPING:`, npc);
                 }
             });
             
             console.log(`🎮 ${this.npcs.length} NPCs loaded from backend`);
+            console.log('📍 NPC positions:', this.npcs.map(npc => ({ name: npc.name, x: npc.x, y: npc.y, gridX: npc.gridX, gridY: npc.gridY })));
             
             // Ensure all NPCs have correct sizes if map is already loaded
             if (this.mapLoaded) {
@@ -203,6 +193,7 @@ class Game {
             
         } catch (error) {
             console.error('❌ Failed to load NPCs from backend:', error);
+            console.log('🔄 Will fall back to hardcoded NPCs');
             throw error;
         }
     }
@@ -211,22 +202,22 @@ class Game {
      * 👥 Setup fallback NPCs when backend is unavailable
      */
     setupNPCsFallback() {
-        // Use the original hardcoded NPC data as fallback
+        // Use fallback NPC data with grid positions
         const fallbackNPCs = [
-            { name: 'la_jolla', x: 0.15, y: 0.25, file: 'la_jolla.png' },
-            { name: 'pacific_beach', x: 0.16, y: 0.48, file: 'pacific_beach.png' },
-            { name: 'ocean_beach', x: 0.14, y: 0.75, file: 'ocean_beach.png' },
-            { name: 'university_city', x: 0.32, y: 0.32, file: 'university_city.png' },
-            { name: 'clairemont', x: 0.28, y: 0.55, file: 'clairemont.png' },
-            { name: 'mira_mesa', x: 0.55, y: 0.22, file: 'mira_mesa.png' },
-            { name: 'black_montain', x: 0.78, y: 0.26, file: 'black_montain.png' },
-            { name: 'miramar', x: 0.52, y: 0.38, file: 'miramar.png' },
-            { name: 'serra_mesa', x: 0.40, y: 0.68, file: 'serra_mesa.png' },
-            { name: 'scripps_ranch', x: 0.78, y: 0.48, file: 'scripps_ranch.png' },
-            { name: 'el_cajon', x: 0.58, y: 0.65, file: 'el_cajon.png' },
-            { name: 'east_san_diego', x: 0.80, y: 0.65, file: 'east_san_diego.png' },
-            { name: 'chula_vista', x: 0.55, y: 0.88, file: 'chula_vista.png' },
-            { name: 'coronado', x: 0.28, y: 0.78, file: 'coronado.png' }
+            { name: 'la_jolla', gridX: 15, gridY: 25, file: 'la_jolla.png' },
+            { name: 'pacific_beach', gridX: 16, gridY: 48, file: 'pacific_beach.png' },
+            { name: 'ocean_beach', gridX: 14, gridY: 75, file: 'ocean_beach.png' },
+            { name: 'university_city', gridX: 32, gridY: 32, file: 'university_city.png' },
+            { name: 'clairemont', gridX: 28, gridY: 55, file: 'clairemont.png' },
+            { name: 'mira_mesa', gridX: 55, gridY: 22, file: 'mira_mesa.png' },
+            { name: 'black_montain', gridX: 78, gridY: 26, file: 'black_montain.png' },
+            { name: 'miramar', gridX: 52, gridY: 38, file: 'miramar.png' },
+            { name: 'serra_mesa', gridX: 40, gridY: 68, file: 'serra_mesa.png' },
+            { name: 'scripps_ranch', gridX: 78, gridY: 48, file: 'scripps_ranch.png' },
+            { name: 'el_cajon', gridX: 58, gridY: 65, file: 'el_cajon.png' },
+            { name: 'east_san_diego', gridX: 80, gridY: 65, file: 'east_san_diego.png' },
+            { name: 'chula_vista', gridX: 55, gridY: 88, file: 'chula_vista.png' },
+            { name: 'coronado', gridX: 28, gridY: 78, file: 'coronado.png' }
         ];
         
         fallbackNPCs.forEach(npc => {
@@ -237,8 +228,10 @@ class Game {
             const newNPC = {
                 name: npc.name,
                 displayName: npc.name.replace('_', ' '),
-                x: npc.x,
-                y: npc.y,
+                x: npc.gridX / 100,  // Convert grid position to percentage
+                y: npc.gridY / 100,  // Convert grid position to percentage
+                gridX: npc.gridX,    // Store grid position for debug
+                gridY: npc.gridY,    // Store grid position for debug
                 image: img,
                 width: this.player.width || 100,  // Use current character size or fallback
                 height: this.player.height || 100, // Use current character size or fallback
@@ -249,6 +242,7 @@ class Game {
         });
         
         console.log(`🎮 ${this.npcs.length} fallback NPCs loaded`);
+        console.log('📍 Fallback NPC positions:', this.npcs.map(npc => ({ name: npc.name, x: npc.x, y: npc.y, gridX: npc.gridX, gridY: npc.gridY })));
         
         // Ensure all fallback NPCs have correct sizes if map is already loaded
         if (this.mapLoaded) {
@@ -431,7 +425,7 @@ class Game {
         this.ctx.fillStyle = '#2c3e50'; // Darker text
         this.ctx.font = '20px Arial';
         this.ctx.textAlign = 'center';
-        this.ctx.fillText('🗺️ San Diego City Map', this.mapWidth / 2 - this.camera.x, 50 - this.camera.y);
+        this.ctx.fillText('🗺️ Local Legends - San Diego Edition', this.mapWidth / 2 - this.camera.x, 50 - this.camera.y);
         
         // Restore context state
         this.ctx.restore();
@@ -915,10 +909,31 @@ class Game {
             this.gameUI.classList.remove('debug-visible');
         }
         console.log(`🐛 Debug menu: ${this.debugVisible ? 'ON' : 'OFF'}`);
+        
+        // Update UI to show grid coordinates when debug is enabled
+        this.updateUI();
     }
     
     updateUI() {
-        this.positionElement.textContent = `X: ${Math.round(this.player.x)}, Y: ${Math.round(this.player.y)}`;
+        // Calculate grid position (0-100) based on player position relative to map
+        let gridX = 0, gridY = 0;
+        if (this.mapLoaded && this.mapWidth > 0 && this.mapHeight > 0) {
+            // Convert player world position to relative position on map (0-1)
+            const relativeX = (this.player.x - this.mapOffsetX) / this.mapWidth;
+            const relativeY = (this.player.y - this.mapOffsetY) / this.mapHeight;
+            
+            // Convert to grid coordinates (0-100)
+            gridX = Math.round(Math.max(0, Math.min(100, relativeX * 100)));
+            gridY = Math.round(Math.max(0, Math.min(100, relativeY * 100)));
+        }
+        
+        // Show grid coordinates in debug mode, pixel coordinates otherwise
+        if (this.debugVisible) {
+            this.positionElement.textContent = `Grid: (${gridX}, ${gridY})`;
+        } else {
+            this.positionElement.textContent = `X: ${Math.round(this.player.x)}, Y: ${Math.round(this.player.y)}`;
+        }
+        
         this.speedElement.textContent = this.ctrlPressed ? 'Boost 🚀' : 'Normal';
         
         // Update session info
@@ -956,17 +971,29 @@ class Game {
             this.drawFallbackMap();
         }
         
+        // Draw debug grid (before characters so they appear on top)
+        this.drawDebugGrid();
+        
         // Draw NPCs
         this.drawNPCs();
         
         // Draw player (always centered on screen)
         this.drawPlayer();
         
+        // Draw debug NPC info (after characters so it appears on top)
+        this.drawDebugNPCInfo();
+        
         // Draw mini-map or additional UI elements
         this.drawMiniUI();
     }
     
     drawNPCs() {
+        if (this.npcs.length === 0) {
+            console.warn('⚠️ No NPCs to draw!');
+            return;
+        }
+        
+        let visibleNPCs = 0;
         this.npcs.forEach(npc => {
             // Convert relative position to absolute map coordinates
             const worldX = this.mapOffsetX + (npc.x * this.mapWidth);
@@ -980,6 +1007,8 @@ class Game {
             const margin = 50;
             if (screenX > -margin && screenX < this.screenWidth + margin &&
                 screenY > -margin && screenY < this.screenHeight + margin) {
+                
+                visibleNPCs++;
                 
                 // Track if nearby for name display (but no interaction circle)
                 const isNearby = this.nearbyNPC === npc;
@@ -1017,32 +1046,78 @@ class Game {
                 
                 // Draw chat indicator only if NPC has actually been talked to
                 if (this.backendConnected && this.npcConversationStatus.get(npc.name)) {
-                    this.ctx.fillStyle = '#4a90e2';
+                    // Draw larger, more visible chat indicator with glow effect
+                    const indicatorX = screenX + npc.width/2 - 8;
+                    const indicatorY = screenY - npc.height/2 + 8;
+                    
+                    // Draw glow effect
+                    this.ctx.save();
+                    this.ctx.shadowColor = '#ffd93d';
+                    this.ctx.shadowBlur = 8;
+                    this.ctx.shadowOffsetX = 0;
+                    this.ctx.shadowOffsetY = 0;
+                    
+                    // Draw main bubble with gradient
+                    const gradient = this.ctx.createRadialGradient(indicatorX, indicatorY, 0, indicatorX, indicatorY, 12);
+                    gradient.addColorStop(0, '#ffd93d');
+                    gradient.addColorStop(0.7, '#ffcd3c');
+                    gradient.addColorStop(1, '#ffc107');
+                    
+                    this.ctx.fillStyle = gradient;
                     this.ctx.beginPath();
-                    this.ctx.arc(screenX + npc.width/2 - 10, screenY - npc.height/2 + 10, 6, 0, 2 * Math.PI);
+                    this.ctx.arc(indicatorX, indicatorY, 12, 0, 2 * Math.PI);
                     this.ctx.fill();
                     
-                    this.ctx.fillStyle = 'white';
-                    this.ctx.font = '10px Arial';
+                    // Draw white border
+                    this.ctx.strokeStyle = 'white';
+                    this.ctx.lineWidth = 3;
+                    this.ctx.stroke();
+                    
+                    this.ctx.restore();
+                    
+                    // Draw chat emoji
+                    this.ctx.fillStyle = '#2c3e50';
+                    this.ctx.font = 'bold 14px Arial';
                     this.ctx.textAlign = 'center';
-                    this.ctx.fillText('💬', screenX + npc.width/2 - 10, screenY - npc.height/2 + 14);
+                    this.ctx.fillText('💬', indicatorX, indicatorY + 5);
                 }
                 
                 // Draw NPC name label when debug mode is active or when nearby
                 if (this.debugVisible || isNearby) {
                     const displayName = npc.displayName || npc.name.replace('_', ' ');
-                    const textWidth = this.ctx.measureText(displayName).width + 20;
                     
-                    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-                    this.ctx.fillRect(screenX - textWidth/2, screenY + npc.height/2 + 5, textWidth, 20);
+                    // Use larger, more beautiful font
+                    this.ctx.font = 'bold 16px Arial';
+                    const textWidth = this.ctx.measureText(displayName).width + 24;
+                    const labelHeight = 28;
                     
+                    // Draw background with rounded corners effect (multiple rectangles)
+                    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+                    this.ctx.fillRect(screenX - textWidth/2 + 2, screenY + npc.height/2 + 8, textWidth - 4, labelHeight - 4);
+                    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                    this.ctx.fillRect(screenX - textWidth/2, screenY + npc.height/2 + 6, textWidth, labelHeight);
+                    
+                    // Draw golden border
+                    this.ctx.strokeStyle = '#ffd93d';
+                    this.ctx.lineWidth = 2;
+                    this.ctx.strokeRect(screenX - textWidth/2, screenY + npc.height/2 + 6, textWidth, labelHeight);
+                    
+                    // Draw text with glow effect
+                    this.ctx.save();
+                    this.ctx.shadowColor = '#ffd93d';
+                    this.ctx.shadowBlur = 4;
                     this.ctx.fillStyle = 'white';
-                    this.ctx.font = '12px Arial';
+                    this.ctx.font = 'bold 16px Arial';
                     this.ctx.textAlign = 'center';
-                    this.ctx.fillText(displayName, screenX, screenY + npc.height/2 + 18);
+                    this.ctx.fillText(displayName, screenX, screenY + npc.height/2 + 26);
+                    this.ctx.restore();
                 }
             }
         });
+        
+        if (this.debugVisible && visibleNPCs === 0 && this.npcs.length > 0) {
+            console.warn(`⚠️ ${this.npcs.length} NPCs loaded but ${visibleNPCs} visible on screen`);
+        }
     }
     
     drawPlayer() {
@@ -1114,6 +1189,89 @@ class Game {
         this.ctx.fillText('N', compassX, compassY - 10);
     }
     
+    /**
+     * 🔍 Draw debug grid (100x100) over the map
+     */
+    drawDebugGrid() {
+        if (!this.debugVisible || !this.mapLoaded) return;
+        
+        this.ctx.save();
+        this.ctx.strokeStyle = 'rgba(255, 255, 0, 0.3)'; // Semi-transparent yellow
+        this.ctx.lineWidth = 1;
+        
+        // Calculate grid cell size
+        const cellWidth = this.mapWidth / 100;
+        const cellHeight = this.mapHeight / 100;
+        
+        // Draw vertical lines
+        for (let i = 0; i <= 100; i++) {
+            const x = this.mapOffsetX + (i * cellWidth) - this.camera.x;
+            this.ctx.beginPath();
+            this.ctx.moveTo(x, this.mapOffsetY - this.camera.y);
+            this.ctx.lineTo(x, this.mapOffsetY + this.mapHeight - this.camera.y);
+            this.ctx.stroke();
+        }
+        
+        // Draw horizontal lines
+        for (let i = 0; i <= 100; i++) {
+            const y = this.mapOffsetY + (i * cellHeight) - this.camera.y;
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.mapOffsetX - this.camera.x, y);
+            this.ctx.lineTo(this.mapOffsetX + this.mapWidth - this.camera.x, y);
+            this.ctx.stroke();
+        }
+        
+        // Draw grid coordinates at major intervals (every 10 lines)
+        this.ctx.fillStyle = 'rgba(255, 255, 0, 0.8)';
+        this.ctx.font = '10px Arial';
+        this.ctx.textAlign = 'center';
+        
+        for (let i = 0; i <= 100; i += 10) {
+            for (let j = 0; j <= 100; j += 10) {
+                const x = this.mapOffsetX + (i * cellWidth) - this.camera.x;
+                const y = this.mapOffsetY + (j * cellHeight) - this.camera.y;
+                
+                // Only draw if visible on screen
+                if (x > -50 && x < this.screenWidth + 50 && y > -20 && y < this.screenHeight + 20) {
+                    this.ctx.fillText(`${i},${j}`, x + 5, y + 15);
+                }
+            }
+        }
+        
+        this.ctx.restore();
+    }
+    
+    /**
+     * 🔍 Draw debug info for NPCs
+     */
+    drawDebugNPCInfo() {
+        if (!this.debugVisible) return;
+        
+        this.npcs.forEach(npc => {
+            // Convert relative position to absolute map coordinates
+            const worldX = this.mapOffsetX + (npc.x * this.mapWidth);
+            const worldY = this.mapOffsetY + (npc.y * this.mapHeight);
+            
+            // Convert to screen coordinates
+            const screenX = worldX - this.camera.x;
+            const screenY = worldY - this.camera.y;
+            
+            // Only draw if NPC is visible on screen
+            const margin = 100;
+            if (screenX > -margin && screenX < this.screenWidth + margin &&
+                screenY > -margin && screenY < this.screenHeight + margin) {
+                
+                // Draw grid coordinates
+                if (npc.gridX !== undefined && npc.gridY !== undefined) {
+                    this.ctx.fillStyle = 'rgba(255, 255, 0, 0.9)';
+                    this.ctx.font = '12px Arial';
+                    this.ctx.textAlign = 'center';
+                    this.ctx.fillText(`(${npc.gridX}, ${npc.gridY})`, screenX, screenY - npc.height/2 - 20);
+                }
+            }
+        });
+    }
+    
     gameLoop() {
         this.handleInput();
         this.render();
@@ -1130,13 +1288,13 @@ class Game {
 
 // Initialize game when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🎮 Starting San Diego City Game...');
+    console.log('🎮 Starting Local Legends - San Diego Edition...');
     const game = new Game();
 });
 
 // Add some fun console messages
 console.log(`
-🏙️ Welcome to San Diego City Game!
+🌟 Welcome to Local Legends - San Diego Edition!
 🎮 Controls:
    • WASD or Arrow Keys: Move character
    • Click on map: Move to location
@@ -1154,12 +1312,12 @@ console.log(`
    • Backend integration with OpenAI GPT-4o
    • Session management with reset capability
 
-🎭 NPCs Available:
+🎭 Local Legends Available:
    • Tyler (La Jolla) - Surfer dude
    • Brianna (Pacific Beach) - Skater girl  
    • Matheus (Ocean Beach) - Musician
    • Alex (University City) - UCSD student
    • And 10 more unique characters!
 
-Happy exploring and chatting! 🌟
+Happy exploring and chatting with local legends! 🌟
 `);

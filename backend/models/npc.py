@@ -1,10 +1,18 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List, Optional, Dict
+
+
+class NPCPosition(BaseModel):
+    x: int
+    y: int
 
 
 class NPC(BaseModel):
     name: str
     image: str
+    neighborhood: str
+    area_color: str
+    position: NPCPosition
     char_description: str
     style_of_communication: str
 

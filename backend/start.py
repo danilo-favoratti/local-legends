@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Startup script for San Diego City Game Backend
+Startup script for Local Legends - San Diego Edition Backend
 """
 import uvicorn
 import os
@@ -17,9 +17,9 @@ def main():
         print("   OPENAI_API_KEY=your_api_key_here")
         print()
     
-    print("🎮 Starting San Diego City Game Backend...")
-    print("📍 Server will be available at: http://localhost:8000")
-    print("📚 API Documentation: http://localhost:8000/docs")
+    print("🎮 Starting Local Legends - San Diego Edition Backend...")
+    print("📍 Server will be available at: http://localhost:7070")
+    print("📚 API Documentation: http://localhost:7070/docs")
     print("🔄 Press Ctrl+C to stop the server")
     print()
     
@@ -27,7 +27,7 @@ def main():
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
-        port=8000,
+        port=7070,
         reload=True,  # Auto-reload on code changes
         log_level="info"
     )

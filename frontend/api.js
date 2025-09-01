@@ -1,5 +1,5 @@
 /**
- * 🎮 San Diego City Game - API Service
+ * 🎮 Local Legends - San Diego Edition - API Service
  * Handles communication with the FastAPI backend
  */
 

@@ -1,0 +1,2 @@
+# Requirements for PNG image resizer
+Pillow>=9.0.0

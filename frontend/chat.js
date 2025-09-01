@@ -1,5 +1,5 @@
 /**
- * 💬 San Diego City Game - Chat System
+ * 💬 Local Legends - San Diego Edition - Chat System
  * Handles NPC conversations and chat UI
  */
 
@@ -100,14 +100,57 @@ class ChatSystem {
      * 📝 Update chat header with NPC info
      */
     updateChatHeader(npcData) {
-        this.npcAvatar.src = `images/${npcData.image}`;
+        // Convert regular image name to avatar version (e.g., "la_jolla.png" -> "la_jolla_avatar.png")
+        const avatarImage = npcData.image.replace('.png', '_avatar.png');
+        this.npcAvatar.src = `images/${avatarImage}`;
         this.npcAvatar.alt = `${npcData.name} avatar`;
         this.npcName.textContent = npcData.name;
         
-        // Extract location from image name (e.g., "la_jolla.png" -> "La Jolla")
-        const location = npcData.image.replace('.png', '').replace(/_/g, ' ')
-            .split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        // Use neighborhood field if available, otherwise extract from filename
+        const location = npcData.neighborhood || 
+            npcData.image.replace('.png', '').replace(/_/g, ' ')
+                .split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
         this.npcLocation.textContent = location;
+        
+        // Update chat header background with area color
+        if (npcData.area_color) {
+            const chatHeader = document.querySelector('.chat-header');
+            // Create a gradient using the area color
+            const areaColor = npcData.area_color;
+            const darkerColor = this.darkenColor(areaColor, 20);
+            const lighterColor = this.lightenColor(areaColor, 10);
+            
+            console.log(`🎨 Setting chat header color for ${npcData.name}:`, areaColor);
+            chatHeader.style.setProperty('background', `linear-gradient(135deg, ${areaColor} 0%, ${darkerColor} 50%, ${lighterColor} 100%)`, 'important');
+        }
+    }
+
+    /**
+     * 🎨 Darken a hex color by a percentage
+     */
+    darkenColor(hex, percent) {
+        const num = parseInt(hex.replace("#", ""), 16);
+        const amt = Math.round(2.55 * percent);
+        const R = (num >> 16) - amt;
+        const G = (num >> 8 & 0x00FF) - amt;
+        const B = (num & 0x0000FF) - amt;
+        return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+            (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+            (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+    }
+
+    /**
+     * 🎨 Lighten a hex color by a percentage
+     */
+    lightenColor(hex, percent) {
+        const num = parseInt(hex.replace("#", ""), 16);
+        const amt = Math.round(2.55 * percent);
+        const R = (num >> 16) + amt;
+        const G = (num >> 8 & 0x00FF) + amt;
+        const B = (num & 0x0000FF) + amt;
+        return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+            (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+            (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
     }
 
     /**
@@ -146,6 +189,17 @@ class ChatSystem {
         welcomeDiv.className = 'loading-message';
         welcomeDiv.innerHTML = `<span>Start a conversation with ${npcName}!</span>`;
         this.messageHistory.appendChild(welcomeDiv);
+        
+        // Show starter conversation options
+        this.showStarterOptions();
+    }
+
+    /**
+     * 🎯 Show starter conversation options for new conversations
+     */
+    showStarterOptions() {
+        const starterOptions = ["Hi!", "What's good here?", "Who are you?"];
+        this.showResponseOptions(starterOptions);
     }
 
     /**
@@ -209,7 +263,13 @@ class ChatSystem {
         
         // Format content for better readability
         const formattedContent = this.formatMessageContent(content);
-        messageDiv.textContent = formattedContent;
+        
+        // Use innerHTML for HTML content from NPCs, textContent for user messages
+        if (role === 'assistant') {
+            messageDiv.innerHTML = formattedContent;
+        } else {
+            messageDiv.textContent = formattedContent;
+        }
         
         this.messageHistory.appendChild(messageDiv);
         this.scrollToBottom();
@@ -219,7 +279,12 @@ class ChatSystem {
      * 📝 Format message content for better readability
      */
     formatMessageContent(content) {
-        // Add line breaks after sentences (periods, exclamation marks, question marks)
+        // If content contains HTML tags, return as-is (it's already formatted)
+        if (content.includes('<') && content.includes('>')) {
+            return content;
+        }
+        
+        // Otherwise, add line breaks after sentences for plain text
         let formatted = content
             .replace(/\. /g, '.\n')      // Period + space
             .replace(/\! /g, '!\n')     // Exclamation + space  
@@ -302,7 +367,7 @@ class ChatSystem {
         errorDiv.className = 'message assistant';
         errorDiv.style.background = '#ffebee';
         errorDiv.style.color = '#c62828';
-        errorDiv.textContent = `❌ ${message}`;
+        errorDiv.innerHTML = `<b>❌ ${message}</b>`;
         
         this.messageHistory.appendChild(errorDiv);
         this.scrollToBottom();

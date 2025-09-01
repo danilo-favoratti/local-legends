@@ -14,7 +14,7 @@ from services.npc_agent import NPCAgentService
 # Load environment variables
 load_dotenv()
 
-app = FastAPI(title="San Diego City Game Backend", version="1.0.0")
+app = FastAPI(title="Local Legends - San Diego Edition Backend", version="1.0.0")
 
 # CORS middleware for frontend integration
 app.add_middleware(
@@ -35,7 +35,7 @@ app.mount("/static", StaticFiles(directory="data"), name="static")
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {"message": "San Diego City Game Backend is running! 🎮"}
+    return {"message": "Local Legends - San Diego Edition Backend is running! 🎮"}
 
 
 @app.post("/api/session/init")
@@ -63,6 +63,9 @@ async def get_npcs():
                 {
                     "name": npc.name,
                     "image": npc.image,
+                    "neighborhood": npc.neighborhood,
+                    "area_color": npc.area_color,
+                    "position": npc.position,
                     "description": npc.char_description[:200] + "..." if len(npc.char_description) > 200 else npc.char_description
                 } 
                 for npc in npcs
@@ -164,4 +167,4 @@ app.mount("/", StaticFiles(directory="../frontend", html=True), name="frontend")
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=7070)

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# San Diego City Game Backend Setup Script
+# Local Legends - San Diego Edition Backend Setup Script
 
-echo "🎮 Setting up San Diego City Game Backend..."
+echo "🌟 Setting up Local Legends - San Diego Edition Backend..."
 
 # Create virtual environment if it doesn't exist
 if [ ! -d ".venv" ]; then
@@ -40,4 +40,4 @@ echo ""
 echo "4. Start the server:"
 echo "   python3 start.py"
 echo ""
-echo "🌐 Server will be available at: http://localhost:8000"
+echo "🌐 Server will be available at: http://localhost:7070"

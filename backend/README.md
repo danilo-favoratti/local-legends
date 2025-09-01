@@ -1,4 +1,4 @@
-# 🎮 San Diego City Game Backend
+# 🌟 Local Legends - San Diego Edition Backend
 
 Backend server for a 2D web game featuring AI-powered NPCs using OpenAI Agents framework with GPT-4.
 
@@ -67,10 +67,10 @@ The backend now uses the `openai-agents` framework for more sophisticated NPC co
 
 ```bash
 # 1. Initialize session
-curl -X POST "http://localhost:8000/api/session/init?session_id=player-123"
+curl -X POST "http://localhost:7070/api/session/init?session_id=player-123"
 
 # 2. Talk to Tyler
-curl -X POST "http://localhost:8000/api/npc/Tyler/interact" \
+curl -X POST "http://localhost:7070/api/npc/Tyler/interact" \
   -H "Content-Type: application/json" \
   -d '{"session_id": "player-123", "message": "Hey Tyler, what's up?"}'
 ```
@@ -95,6 +95,6 @@ backend/
 
 ## 🔧 Development
 
-- **API Docs**: http://localhost:8000/docs
-- **Health Check**: http://localhost:8000/
+- **API Docs**: http://localhost:7070/docs
+- **Health Check**: http://localhost:7070/
 - **Auto-reload**: Enabled in development mode

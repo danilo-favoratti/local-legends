@@ -1,4 +1,4 @@
-# 🏙️ San Diego City Game
+# 🌟 Local Legends - San Diego Edition
 
 A modern web-based 2D game featuring character movement on a custom map using HTML5 Canvas and JavaScript.
 
@@ -174,4 +174,4 @@ This project is open source. Feel free to modify and distribute as needed.
 
 ---
 
-**🎮 Happy Gaming!** Explore San Diego City and have fun with your custom 2D game!
+**🎮 Happy Gaming!** Meet the Local Legends of San Diego and have fun with your custom 2D game!
