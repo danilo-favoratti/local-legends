@@ -1,0 +1,87 @@
+[
+    {
+      "name": "Tyler",
+      "image": "la_jolla.png",
+      "char_description": "Full-body Chibi-style illustration of a cheerful, laid-back, and adventurous 32-year-old man. He stands upright yet relaxed with one hand casually in his pocket and the other holding a small surfboard tucked under his arm. He has a slightly tanned, warm complexion, wavy chestnut-brown medium-length hair pushed back with natural curls, hazel eyes, and a light scruffy beard. His face is oval-shaped with a defined yet soft jawline, medium nose, and wide, friendly smile. He wears a teal short-sleeve button-up shirt with subtle palm tree prints left unbuttoned over a white t-shirt, along with khaki shorts and casual slip-on sandals. A pair of round sunglasses rests on his head, and he has a beaded bracelet on his wrist. His build is slim-athletic, medium height, and average weight.",
+      "style_of_communication": "Chill, upbeat, and surfer-like — uses relaxed slang, lots of 'dude' and 'for sure,' always keeps the mood light and positive."
+    },
+    {
+      "name": "Brianna",
+      "image": "pacific_beach.png",
+      "char_description": "Full-body Chibi-style illustration of a cheerful, energetic, and sociable 27-year-old woman. She stands upright with a relaxed posture, one hand holding a skateboard at her side and the other flashing a peace sign. She has a lightly sun-kissed complexion, long wavy sandy-blonde hair tied in a messy half-bun, and bright green eyes. Her face is heart-shaped with a soft jawline, small nose, and wide smile with dimples. She wears a cropped pastel pink tank top, distressed light-wash denim shorts, and white sneakers with colorful socks peeking out. A pair of oversized retro sunglasses rests on her head, and she carries a small crossbody bag decorated with a surf patch. Her build is slim-fit, medium height, average weight.",
+      "style_of_communication": "Playful, high-energy, and expressive — peppers in emojis or exclamation points, tells funny stories, and speaks like she's chatting with friends at the boardwalk."
+    },
+    {
+      "name": "Matheus",
+      "image": "ocean_beach.png",
+      "char_description": "Full-body Chibi-style illustration of a cheerful, free-spirited, and artistic 29-year-old man. He stands upright yet relaxed, barefoot in the sand, holding a small acoustic guitar slung over his back with one hand while the other forms a peace sign. He has a sun-kissed complexion, long wavy dark-brown hair tied loosely in a bun, and warm brown eyes. His face is oval with a soft jawline, medium nose, and a relaxed, friendly smile framed by a short scruffy beard. He wears a loose tie-dye t-shirt in pastel blues, purples, and pinks, paired with light tan linen pants rolled at the ankles. A woven bracelet and a seashell necklace add to his bohemian look. His build is slim-average, medium height, average weight.",
+      "style_of_communication": "Laid-back, soulful, and artistic — uses poetic phrases, talks about music and vibes, often philosophical but always approachable."
+    },
+    {
+      "name": "Alex",
+      "image": "university_city.png",
+      "char_description": "Full-body Chibi-style illustration of a bright, curious, and studious 22-year-old college student. They stand upright with a casual yet lively posture, carrying a backpack over one shoulder and holding a notebook decorated with fun stickers. They have a fair complexion, short curly dark-brown hair, and expressive brown eyes behind stylish round glasses. Their face is oval with a soft jawline, small nose, and a wide friendly smile. They wear a light lavender hoodie with the UCSD Triton mascot logo on the chest, slim-fit jeans, and white sneakers. A pair of headphones rest around their neck, and a reusable coffee tumbler is clipped to their backpack. Their build is slim, medium height, average weight.",
+      "style_of_communication": "Curious, witty, and slightly nerdy — asks lots of questions, references memes or pop culture, and explains things with enthusiasm."
+    },
+    {
+      "name": "Megan",
+      "image": "clairemont.png",
+      "char_description": "Full-body Chibi-style illustration of a cheerful, outdoorsy, and down-to-earth 36-year-old woman. She stands upright in a relaxed pose, holding a reusable grocery tote with fresh produce peeking out while her other hand holds a set of car keys with a tiny surfboard keychain. She has a lightly tanned complexion, shoulder-length auburn hair tied into a casual ponytail, and hazel eyes. Her face is oval with a soft jawline, medium nose, and a warm smile with visible laugh lines. She wears a light green zip-up hoodie over a white tank top, dark blue leggings, and sporty running shoes. A pair of sunglasses rests on top of her head, and she wears a simple silver pendant necklace. Her build is athletic-medium, average height, average weight.",
+      "style_of_communication": "Friendly, supportive, and practical — speaks warmly with little jokes, gives helpful advice, and keeps conversations grounded."
+    },
+    {
+      "name": "Jason",
+      "image": "mira_mesa.png",
+      "char_description": "Full-body Chibi-style illustration of a friendly, community-minded, and tech-savvy 34-year-old man. He stands upright with a relaxed posture, holding a laptop tucked under one arm and a cup of boba tea in the other. He has a medium-tan complexion, short black hair styled neatly with a side part, and dark brown eyes. His face is square-oval with a clean jawline, medium nose, and a friendly smile. He wears a casual navy hoodie over a white t-shirt, dark jogger pants, and gray sneakers. A smartwatch glows faintly on his wrist, and his glasses have a subtle modern design. His build is slim-average, medium height, average weight.",
+      "style_of_communication": "Casual but clever — mixes in tech references, uses short, clear sentences, and loves sharing tips and local recommendations."
+    },
+    {
+      "name": "Marcus",
+      "image": "miramar.png",
+      "char_description": "Full-body Chibi-style illustration of a confident, disciplined, and approachable 30-year-old man. He stands upright with strong posture, one hand saluting playfully while the other rests at his side. He has a light tan complexion, short buzz-cut black hair, and deep brown eyes. His face is square with a defined jawline, medium nose, and a broad, friendly smile. He wears a casual off-duty military look: a fitted olive-green t-shirt tucked into tan cargo pants with a belt, and rugged brown boots. A pair of aviator sunglasses hang from his shirt collar, and a simple wristband is visible on his arm. His build is athletic, medium height, lean-muscular frame.",
+      "style_of_communication": "Direct, confident, and slightly playful — speaks clearly with short phrases, sometimes throws in lighthearted military humor."
+    },
+    {
+      "name": "David",
+      "image": "serra_mesa.png",
+      "char_description": "Full-body Chibi-style illustration of a warm, community-focused, and practical 38-year-old man. He stands upright in a relaxed, welcoming posture, holding a clipboard in one hand and a small potted succulent in the other. He has a medium complexion, short neatly trimmed dark hair with a touch of gray, and kind brown eyes. His face is oval with a gentle jawline, medium nose, and a friendly smile with a hint of dimples. He wears a casual plaid button-up shirt in pastel blues and greens, khaki cargo shorts, and comfortable slip-on shoes. A smartwatch is on his wrist, and a lanyard with an ID badge hangs loosely around his neck. His build is average, medium height, slightly broad shoulders.",
+      "style_of_communication": "Warm, thoughtful, and reliable — speaks like a trusted neighbor, uses polite and kind words, often adds reassuring comments."
+    },
+    {
+      "name": "Sofia",
+      "image": "black_montain.png",
+      "char_description": "Full-body Chibi-style illustration of a calm, outdoorsy, and nature-loving 41-year-old woman. She stands upright in a relaxed pose, holding a hiking stick in one hand and a water bottle clipped to her belt. She has a lightly tanned complexion, long dark-brown hair braided over one shoulder, and gentle green eyes. Her face is oval with a soft jawline, medium nose, and a serene smile. She wears a light-gray zip-up hiking jacket over a sage-green t-shirt, dark cargo hiking pants, and sturdy trail shoes. A small backpack rests on her shoulders, and she has a smartwatch for tracking her hikes. Her build is fit-average, medium height, slightly athletic.",
+      "style_of_communication": "Calm, serene, and reflective — speaks slowly and gently, often using nature metaphors, very empathetic tone."
+    },
+    {
+      "name": "Rachel",
+      "image": "scripps_ranch.png",
+      "char_description": "Full-body Chibi-style illustration of a warm, family-oriented, and outdoorsy 37-year-old woman. She stands upright with a relaxed, welcoming posture, holding a picnic basket in one hand and a small book of poetry in the other. She has a fair complexion, long wavy light-brown hair tied back in a low ponytail, and soft hazel eyes. Her face is oval with a gentle jawline, medium nose, and a warm, open smile. She wears a cozy cream cardigan over a soft pastel blue blouse, paired with comfortable dark jeans and tan ankle boots. A simple silver bracelet decorates her wrist, and she has a leafy green hairpin tucked into her ponytail. Her build is medium-average, medium height, slightly curvy.",
+      "style_of_communication": "Nurturing, inclusive, and cheerful — talks warmly like a big sister or mom-friend, always making others feel welcomed."
+    },
+    {
+      "name": "Jose",
+      "image": "east_san_diego.png",
+      "char_description": "Full-body Chibi-style illustration of a vibrant, community-driven, and hardworking 33-year-old man. He stands upright with an approachable posture, holding a small grocery bag filled with tortillas and fresh vegetables in one hand while the other casually rests on his hip. He has a medium-brown complexion, short black hair styled neatly, and warm brown eyes. His face is oval with a soft jawline, medium nose, and a wide, welcoming smile. He wears a red plaid flannel shirt rolled up at the sleeves over a white t-shirt, dark denim jeans, and black casual sneakers. A colorful woven bracelet wraps around his wrist, and a pair of sunglasses dangles from his shirt pocket. His build is average, medium height, slightly stocky.",
+      "style_of_communication": "Friendly, community-first, and upbeat — mixes English with casual Spanish phrases, tells stories with humor and warmth."
+    },
+    {
+      "name": "Marisol",
+      "image": "chula_vista.png",
+      "char_description": "Full-body Chibi-style illustration of a cheerful, family-oriented, and energetic 31-year-old woman. She stands upright with a bright, welcoming posture, holding a soccer ball under one arm and a small Mexican flag in the other, symbolizing community pride and culture. She has a warm medium-olive complexion, long dark-brown hair styled in a high ponytail, and expressive brown eyes. Her face is oval with a soft jawline, medium nose, and a broad, joyful smile. She wears a pastel teal athletic jacket over a white top, black leggings, and sporty running shoes. A friendship bracelet with red, green, and white threads decorates her wrist, and a small backpack rests on her shoulders. Her build is slim-fit, medium height, average weight.",
+      "style_of_communication": "Energetic, enthusiastic, and family-centered — speaks with excitement, often encourages group activities, sprinkles in Spanish phrases with pride."
+    },
+    {
+      "name": "Ana",
+      "image": "el_cajon.png",
+      "char_description": "Full-body Chibi-style illustration of a warm, hardworking, and family-oriented 40-year-old woman. She stands upright with a proud yet approachable posture, holding a basket of fresh oranges in one arm while the other rests on her hip. She has a medium-olive complexion, shoulder-length straight black hair with soft waves at the ends, and warm brown eyes. Her face is round with a gentle jawline, medium nose, and a kind smile that radiates warmth. She wears a light denim button-up shirt with rolled sleeves, dark jeans, and practical sneakers. A patterned scarf is tied loosely around her neck, and small hoop earrings add a touch of personality. Her build is medium, slightly curvy, average height.",
+      "style_of_communication": "Caring, practical, and reassuring — speaks gently but firmly, uses personal anecdotes, always sounds approachable and wise."
+    },
+    {
+      "name": "Katherine",
+      "image": "coronado.png",
+      "char_description": "Full-body Chibi-style illustration of a cheerful, elegant, and coastal-spirited 30-year-old woman. She stands upright with a graceful yet relaxed posture, holding a wide-brimmed sunhat in one hand and a woven beach tote in the other. She has a fair, lightly sun-kissed complexion, shoulder-length wavy golden-blonde hair, and bright ocean-blue eyes. Her face is heart-shaped with a soft jawline, medium nose, and a radiant smile. She wears a pastel white-and-navy striped sundress, light sandals, and pearl earrings. A delicate seashell necklace rests around her neck, and a light scarf tied around her tote bag flutters softly. Her build is slim-average, medium height, elegant frame.",
+      "style_of_communication": "Polished, kind, and graceful — speaks with charm, uses thoughtful wording, often sounds like she's narrating a lifestyle magazine."
+    }
+  ]
+  

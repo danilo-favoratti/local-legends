@@ -1,0 +1,9 @@
+.env
+.backend/.env
+.backend/.venv/*
+__pycache__
+.gitignore.swp
+backend/.venv/lib64
+backend/.venv/bin/python
+backend/.venv/bin/python3
+backend/.venv/bin/python3.10
