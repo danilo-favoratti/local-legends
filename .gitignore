@@ -1,11 +1,5 @@
 .env
-.backend/.env
-.backend/.venv/*
 __pycache__
 .gitignore.swp
-.venv/*
-backend/.venv/lib64
-backend/.venv/bin/python
-backend/.venv/bin/python3
-backend/.venv/bin/python3.10
+.venv
 backend/data/sessions/*

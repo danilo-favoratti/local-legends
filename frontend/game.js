@@ -505,7 +505,34 @@ class Game {
             const worldX = screenX + this.camera.x;
             const worldY = screenY + this.camera.y;
             
-            this.movePlayerTo(worldX, worldY);
+            // Check if click is on an NPC
+            const clickedNPC = this.getNPCAtPosition(worldX, worldY);
+            if (clickedNPC) {
+                // Move player close to the NPC, then interact
+                this.moveToNPCAndInteract(clickedNPC);
+            } else {
+                // Move player if not clicking on NPC
+                this.movePlayerTo(worldX, worldY);
+            }
+        });
+
+        // Canvas mouse move for hover effects
+        this.canvas.addEventListener('mousemove', (e) => {
+            const rect = this.canvas.getBoundingClientRect();
+            const screenX = e.clientX - rect.left;
+            const screenY = e.clientY - rect.top;
+            
+            // Convert screen coordinates to world coordinates
+            const worldX = screenX + this.camera.x;
+            const worldY = screenY + this.camera.y;
+            
+            // Check if hovering over an NPC
+            const hoveredNPC = this.getNPCAtPosition(worldX, worldY);
+            if (hoveredNPC) {
+                this.canvas.style.cursor = 'pointer';
+            } else {
+                this.canvas.style.cursor = 'default';
+            }
         });
 
         // Debug controls
@@ -654,6 +681,92 @@ class Game {
         
         // Open chat with the nearby NPC
         await this.chatSystem.showChat(this.nearbyNPC.name);
+    }
+
+    /**
+     * 🎯 Check if a click position is on an NPC
+     */
+    getNPCAtPosition(worldX, worldY) {
+        for (const npc of this.npcs) {
+            // Convert NPC relative position to world coordinates
+            const npcWorldX = this.mapOffsetX + (npc.x * this.mapWidth);
+            const npcWorldY = this.mapOffsetY + (npc.y * this.mapHeight);
+            
+            // Check if click is within NPC bounds (considering the NPC is drawn centered)
+            const halfWidth = npc.width / 2;
+            const halfHeight = npc.height / 2;
+            
+            if (worldX >= npcWorldX - halfWidth && worldX <= npcWorldX + halfWidth &&
+                worldY >= npcWorldY - halfHeight && worldY <= npcWorldY + halfHeight) {
+                return npc;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 🚶 Move player close to NPC and then interact
+     */
+    moveToNPCAndInteract(npc) {
+        // Convert NPC relative position to world coordinates
+        const npcWorldX = this.mapOffsetX + (npc.x * this.mapWidth);
+        const npcWorldY = this.mapOffsetY + (npc.y * this.mapHeight);
+        
+        // Calculate distance to NPC
+        const dx = this.player.x - npcWorldX;
+        const dy = this.player.y - npcWorldY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        // If already close enough, interact immediately
+        if (distance < this.interactionDistance) {
+            this.nearbyNPC = npc;
+            this.handleNPCInteraction();
+            return;
+        }
+        
+        // Calculate target position (close to NPC but not on top of them)
+        const targetDistance = this.interactionDistance * 0.8; // Get within 80% of interaction distance
+        const angle = Math.atan2(dy, dx);
+        const targetX = npcWorldX + Math.cos(angle) * targetDistance;
+        const targetY = npcWorldY + Math.sin(angle) * targetDistance;
+        
+        // Smooth movement animation to position near NPC
+        const duration = 800; // ms (slightly longer for NPC approach)
+        const startTime = Date.now();
+        const startX = this.player.x;
+        const startY = this.player.y;
+        
+        // Calculate movement direction for sprite
+        const deltaX = targetX - startX;
+        const deltaY = targetY - startY;
+        const movementX = deltaX > 0 ? 1 : deltaX < 0 ? -1 : 0;
+        const movementY = deltaY > 0 ? 1 : deltaY < 0 ? -1 : 0;
+        
+        // Update sprite direction based on movement
+        this.updatePlayerDirection(movementX, movementY);
+        
+        const animate = () => {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Easing function for smooth movement
+            const easeProgress = 1 - Math.pow(1 - progress, 3);
+            
+            const newX = startX + (targetX - startX) * easeProgress;
+            const newY = startY + (targetY - startY) * easeProgress;
+            
+            this.movePlayer(newX, newY);
+            
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                // After movement completes, set NPC as nearby and interact
+                this.nearbyNPC = npc;
+                this.handleNPCInteraction();
+            }
+        };
+        
+        animate();
     }
 
     /**
@@ -1298,6 +1411,7 @@ console.log(`
 🎮 Controls:
    • WASD or Arrow Keys: Move character
    • Click on map: Move to location
+   • Click on NPC: Move to and talk with NPC
    • Hold CTRL: Move faster
    • E: Talk to nearby NPCs
    • ESC: Close chat
